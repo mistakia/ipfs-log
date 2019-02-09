@@ -22,9 +22,10 @@
     "json-stringify-deterministic": "^1.0.1",
     "multihashing-async": "^0.7.0",
     "orbit-db-identity-provider": "~0.3.0",
-    "orbit-db-io": "~0.2.0",
+    "orbit-db-io": "github:mistakia/orbit-db-io#proto/record",
     "p-do-whilst": "^1.1.0",
     "p-each-series": "^2.1.0",
+    "lru-cache": "^5.1.1",
     "p-map": "^1.1.1",
     "p-whilst": "^1.0.0"
   },
