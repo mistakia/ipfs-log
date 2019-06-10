@@ -682,7 +682,8 @@ Object.keys(testAPIs).forEach((IPFS) => {
           'entryA5', 'entryB5', 'entryC0', 'entryA9', 'entryA10'
         ]
 
-        assert.deepStrictEqual(res.values.map(e => e.payload), first5)
+        const values = await res.values()
+        assert.deepStrictEqual(values.map(e => e.payload), first5)
 
         // First 11
         res = await Log.fromMultihash(ipfs, testIdentity2, hash, { length: 11 })
@@ -694,7 +695,8 @@ Object.keys(testAPIs).forEach((IPFS) => {
           'entryA7', 'entryA8', 'entryA9', 'entryA10'
         ]
 
-        assert.deepStrictEqual(res.values.map(e => e.payload), first11)
+        const values2 = await res.values()
+        assert.deepStrictEqual(values2.map(e => e.payload), first11)
 
         // All but one
         res = await Log.fromMultihash(ipfs, testIdentity2, hash, { length: 16 - 1 })
@@ -706,7 +708,8 @@ Object.keys(testAPIs).forEach((IPFS) => {
           'entryC0', 'entryA7', 'entryA8', 'entryA9', 'entryA10'
         ]
 
-        assert.deepStrictEqual(res.values.map(e => e.payload), all)
+        const values3 = await res.values()
+        assert.deepStrictEqual(values3.map(e => e.payload), all)
       })
 
       it('retrieves partially joined log deterministically - multiple next pointers', async () => {
@@ -746,7 +749,8 @@ Object.keys(testAPIs).forEach((IPFS) => {
           'entryC0', 'entryA7', 'entryA8', 'entryA9', 'entryA10'
         ]
 
-        assert.deepStrictEqual(res.values.map(e => e.payload), first5)
+        const values = await res.values()
+        assert.deepStrictEqual(values.map(e => e.payload), first5)
 
         // First 11
         res = await Log.fromMultihash(ipfs, testIdentity2, hash, { length: 11 })
@@ -758,7 +762,8 @@ Object.keys(testAPIs).forEach((IPFS) => {
           'entryA7', 'entryA8', 'entryA9', 'entryA10'
         ]
 
-        assert.deepStrictEqual(res.values.map(e => e.payload), first11)
+        const values1 = await res.values()
+        assert.deepStrictEqual(values1.map(e => e.payload), first11)
 
         // All but one
         res = await Log.fromMultihash(ipfs, testIdentity2, hash, { length: 16 - 1 })
@@ -770,7 +775,8 @@ Object.keys(testAPIs).forEach((IPFS) => {
           'entryC0', 'entryA7', 'entryA8', 'entryA9', 'entryA10'
         ]
 
-        assert.deepStrictEqual(res.values.map(e => e.payload), all)
+        const values2 = await res.values()
+        assert.deepStrictEqual(values2.map(e => e.payload), all)
       })
 
       it('throws an error if ipfs is not defined', async () => {
@@ -825,7 +831,8 @@ Object.keys(testAPIs).forEach((IPFS) => {
           const a = await Log.fromEntry(ipfs, testIdentity, last(items1),
             { length: -1 })
           assert.strictEqual(a.length, amount)
-          assert.strictEqual(a.values[0].hash, items1[0].hash)
+          const values = await a.values()
+          assert.strictEqual(values[0].hash, items1[0].hash)
         })
 
         it('returns all entries - including excluded entries', async () => {
