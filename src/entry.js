@@ -139,10 +139,15 @@ class Entry {
    * console.log(entry)
    * // { hash: "Zd...Foo", payload: "hello", next: [] }
    */
-  static async fromMultihash (ipfs, hash) {
+  static async fromMultihash (ipfs, hash, localResolve = false) {
     if (!ipfs) throw IpfsNotDefinedError()
     if (!hash) throw new Error(`Invalid hash: ${hash}`)
-    const e = await io.read(ipfs, hash, { links: IPLD_LINKS })
+
+    const e = await io.read(ipfs, hash, { links: IPLD_LINKS, localResolve })
+
+    if (!e) {
+      return {}
+    }
 
     const entry = Entry.toEntry(e)
     entry.hash = hash
