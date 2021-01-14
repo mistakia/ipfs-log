@@ -141,10 +141,11 @@ Object.keys(testAPIs).forEach((IPFS) => {
           'helloA1', 'helloB1', 'helloA2', 'helloB2'
         ]
 
+        const values1 = await log1.values()
         assert.strictEqual(log1.length, 4)
-        assert.deepStrictEqual(log1.values.map((e) => e.payload), expectedData)
+        assert.deepStrictEqual(values1.map((e) => e.payload), expectedData)
 
-        const item = last(log1.values)
+        const item = last(values1)
         assert.strictEqual(item.next.length, 1)
       })
 
@@ -160,9 +161,11 @@ Object.keys(testAPIs).forEach((IPFS) => {
           'helloA1', 'helloB1', 'helloA2', 'helloB2'
         ]
 
-        assert.deepStrictEqual(log1.values.map((e) => e.hash), log2.values.map((e) => e.hash))
-        assert.deepStrictEqual(log1.values.map((e) => e.payload), expectedData)
-        assert.deepStrictEqual(log2.values.map((e) => e.payload), expectedData)
+        const values1 = await log1.values()
+        const values2 = await log2.values()
+        assert.deepStrictEqual(values1.map((e) => e.hash), values2.map((e) => e.hash))
+        assert.deepStrictEqual(values1.map((e) => e.payload), expectedData)
+        assert.deepStrictEqual(values2.map((e) => e.payload), expectedData)
       })
 
       it('joins logs twice', async () => {
@@ -179,7 +182,8 @@ Object.keys(testAPIs).forEach((IPFS) => {
         ]
 
         assert.strictEqual(log2.length, 4)
-        assert.deepStrictEqual(log2.values.map((e) => e.payload), expectedData)
+        const values2 = await log2.values()
+        assert.deepStrictEqual(values2.map((e) => e.payload), expectedData)
       })
 
       it('joins 2 logs two ways', async () => {
@@ -196,7 +200,8 @@ Object.keys(testAPIs).forEach((IPFS) => {
         ]
 
         assert.strictEqual(log2.length, 4)
-        assert.deepStrictEqual(log2.values.map((e) => e.payload), expectedData)
+        const values2 = await log2.values()
+        assert.deepStrictEqual(values2.map((e) => e.payload), expectedData)
       })
 
       it('joins 2 logs two ways and has the right heads at every step', async () => {
@@ -261,7 +266,8 @@ Object.keys(testAPIs).forEach((IPFS) => {
         ]
 
         assert.strictEqual(log1.length, 8)
-        assert.deepStrictEqual(log1.values.map(e => e.payload), expectedData)
+        const values1 = await log1.values()
+        assert.deepStrictEqual(values1.map(e => e.payload), expectedData)
       })
 
       it('joins 4 logs to one is commutative', async () => {
@@ -281,7 +287,9 @@ Object.keys(testAPIs).forEach((IPFS) => {
         await log2.join(log4)
 
         assert.strictEqual(log1.length, 8)
-        assert.deepStrictEqual(log1.values.map(e => e.payload), log2.values.map(e => e.payload))
+        const values1 = await log1.values()
+        const values2 = await log2.values()
+        assert.deepStrictEqual(values1.map(e => e.payload), values2.map(e => e.payload))
       })
 
       it('joins logs and updates clocks', async () => {
@@ -340,7 +348,8 @@ Object.keys(testAPIs).forEach((IPFS) => {
           { payload: 'helloD6', id: 'X', clock: new Clock(testIdentity4.publicKey, 8) }
         ]
 
-        const transformed = log4.values.map((e) => {
+        const values4 = await log4.values()
+        const transformed = values4.map((e) => {
           return { payload: e.payload, id: e.id, clock: e.clock }
         })
 
@@ -395,7 +404,8 @@ Object.keys(testAPIs).forEach((IPFS) => {
         ]
 
         assert.strictEqual(log4.length, 10)
-        assert.deepStrictEqual(log4.values.map((e) => e.payload), expectedData)
+        const values4 = await log4.values()
+        assert.deepStrictEqual(values4.map((e) => e.payload), expectedData)
       })
 
       describe('takes length as an argument', async () => {
@@ -412,10 +422,11 @@ Object.keys(testAPIs).forEach((IPFS) => {
           const expectedData = [
             'helloB2'
           ]
-          const lastEntry = last(log1.values)
+          const values1 = await log1.values()
+          const lastEntry = last(values1)
 
           assert.strictEqual(log1.length, 1)
-          assert.deepStrictEqual(log1.values.map((e) => e.payload), expectedData)
+          assert.deepStrictEqual(values1.map((e) => e.payload), expectedData)
           assert.strictEqual(lastEntry.next.length, 1)
         })
 
@@ -425,10 +436,11 @@ Object.keys(testAPIs).forEach((IPFS) => {
           const expectedData = [
             'helloA2', 'helloB2'
           ]
-          const lastEntry = last(log1.values)
+          const values1 = await log1.values()
+          const lastEntry = last(values1)
 
           assert.strictEqual(log1.length, 2)
-          assert.deepStrictEqual(log1.values.map((e) => e.payload), expectedData)
+          assert.deepStrictEqual(values1.map((e) => e.payload), expectedData)
           assert.strictEqual(lastEntry.next.length, 1)
         })
 
@@ -438,10 +450,11 @@ Object.keys(testAPIs).forEach((IPFS) => {
           const expectedData = [
             'helloB1', 'helloA2', 'helloB2'
           ]
-          const lastEntry = last(log1.values)
+          const values1 = await log1.values()
+          const lastEntry = last(values1)
 
           assert.strictEqual(log1.length, 3)
-          assert.deepStrictEqual(log1.values.map((e) => e.payload), expectedData)
+          assert.deepStrictEqual(values1.map((e) => e.payload), expectedData)
           assert.strictEqual(lastEntry.next.length, 1)
         })
 
@@ -451,10 +464,11 @@ Object.keys(testAPIs).forEach((IPFS) => {
           const expectedData = [
             'helloA1', 'helloB1', 'helloA2', 'helloB2'
           ]
-          const lastEntry = last(log1.values)
+          const values1 = await log1.values()
+          const lastEntry = last(values1)
 
           assert.strictEqual(log1.length, 4)
-          assert.deepStrictEqual(log1.values.map((e) => e.payload), expectedData)
+          assert.deepStrictEqual(values1.map((e) => e.payload), expectedData)
           assert.strictEqual(lastEntry.next.length, 1)
         })
       })
